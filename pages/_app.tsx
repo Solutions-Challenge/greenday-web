@@ -1,5 +1,5 @@
 import '../styles/globals.css'
-import './app.css'
+import "../firebase.config";
 import type { AppProps } from 'next/app'
 import React, { ReactText, useEffect } from 'react'
 import { defineCustomElements as ionDefineCustomElements } from '@ionic/core/loader';
@@ -46,30 +46,30 @@ function MyApp({ Component, pageProps }:AppProps) {
     ionDefineCustomElements(window)
   })
   return (
-  <ion-app>
-    <ion-header translucent>
-      <ion-toolbar id='green-day'>
-        <ion-title color='dark' size='large'>Green Day</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    
-    <ion-content fullscreen>
-      <Component {...pageProps} />
-    </ion-content>
+    <ion-app>
+      <ion-header translucent>
+        <ion-toolbar id='green-day-header'>
+          <ion-title color='dark' size='large'>Green Day</ion-title>
+        </ion-toolbar>
+      </ion-header>
+  
+      <ion-content fullscreen>
+        <Component {...pageProps} />
+      </ion-content>
 
-    <ion-footer>
-      <ion-tab-bar>
-        <ion-tab-button tab="home" selected={false} onClick={() => Router.push('/organization')}>
-          <ion-icon icon={home} />
-          <ion-label>Home</ion-label>
-        </ion-tab-button>
-        <ion-tab-button tab="map" selected={false} onClick={() => Router.push('/map')}>
-          <ion-icon icon={map} />
-          <ion-label>Map</ion-label>
-        </ion-tab-button>
-      </ion-tab-bar>
-    </ion-footer>
-  </ion-app>
+      <ion-footer>
+        <ion-tab-bar id='green-day-footer'>
+          <ion-tab-button tab="home" selected={false} onClick={() => Router.push('/home')}>
+            <ion-icon icon={home} />
+            <ion-label>Home</ion-label>
+          </ion-tab-button>
+          <ion-tab-button tab="map" selected={false} onClick={() => Router.push('/map')}>
+            <ion-icon icon={map} />
+            <ion-label>Map</ion-label>
+          </ion-tab-button>
+        </ion-tab-bar>
+      </ion-footer>
+    </ion-app>
   )
 }
 
