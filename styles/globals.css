@@ -48,3 +48,8 @@ ion-thumbnail {
   height: 10%;
   width: 10%;
 }
+
+#attention {
+  font-size: large;
+  color: red;
+}
