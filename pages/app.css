@@ -1,8 +1,0 @@
-#green-day {
-  --background: none;
-  background-image: linear-gradient(to right, limegreen, white),
-    url("../images/GoogleImg.jpg");
-  background-position: 0%, 100%;
-  background-repeat: no-repeat;
-  background-size: 90%, 10%;
-}
