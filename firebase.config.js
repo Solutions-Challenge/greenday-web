@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import { initializeApp } from "firebase/app";
 import "firebase/analytics"
+import { initializeFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -13,3 +14,6 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const db = initializeFirestore(app, {});
+
+export default db;
