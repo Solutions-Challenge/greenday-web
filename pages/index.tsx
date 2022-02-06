@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import Image from 'next/image'
-import welcomePic from '../images/GreenEarth.jpg'
+import welcomePic from '../images/GreenEarth1.jpg'
 
 const Home: NextPage = () => {
   return (

@@ -7,6 +7,10 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import RecycledTypesList from "../RecycledTypes";
 import Link from "next/link";
 import { Url } from "url";
+import Geocode from "react-geocode";
+import USStatesList from "../USStates";
+
+Geocode.setApiKey(process.env.NEXT_PUBLIC_GOOGLE_API_KEY!);
 
 var phone:(string | undefined) = undefined;
 var address:(string | undefined) = undefined;
@@ -25,8 +29,15 @@ const UserHome = () => {
     const [showDetails, setShowDetails] = useState<boolean>(true);
 
     const userDetails = {
-        address: "",
         phone: "",
+        street: "",
+        city: "",
+        county: "",
+        state: "",
+        zipcode: "",
+        lat: 0,
+        lng: 0,
+        address: "",
         timeAvailability: "",
         website: "",
         recycledType: ""
@@ -69,14 +80,29 @@ const UserHome = () => {
         setUserInfoUpdate(true);
     }
 
+    const handleLatLng = () => {
+        Geocode.fromAddress("Eiffel Tower").then(
+            (response) => {
+                const { lat, lng } = response.results[0].geometry.location;
+                console.log(lat, lng);
+            },
+            (error) => {
+                console.error(error);
+            });
+    }
+
     const handleSubmit = async () => {
-        console.log(userDetails);
+        userDetails.address = userDetails.street + ", " + userDetails.city + ", " + userDetails.state + ", " + userDetails.zipcode;
+        console.log(userDetails.address);
+        handleLatLng();
+        /*
         await setDoc(doc(db, collection, user!.uid), userDetails)
             .then(() => {
                 Router.reload();
             }).catch(error => {
                 alert(error);
             });
+            */
     }
 
     const loadData = async (user:User) => {
@@ -134,7 +160,7 @@ const UserHome = () => {
                     <p>Email: {user.email}</p>
                     {!showDetails && (phone !== undefined) && <p>Phone: {phone}</p>}
                     {!showDetails && (address !== undefined) && <p>Address: {address}</p>}
-                    {!showDetails && (timeAvailability !== undefined) && <p>Available: {timeAvailability}</p>}
+                    {!showDetails && (timeAvailability !== undefined) && <p>Time Availability: {timeAvailability}</p>}
                     {!showDetails && (website !== undefined) && <p>Website: <Link href={website!} passHref={true}>{website}</Link></p>}
                     {!showDetails && (recycledType !== undefined) && <p>Recycled Type(s): {recycledType}</p>}
                 </ion-label>
@@ -157,8 +183,22 @@ const UserHome = () => {
                             <ion-input type="tel" required={true} onBlur={e => userDetails.phone = (e.target as HTMLInputElement).value}></ion-input>
                         </ion-item>
                         <ion-item>
-                            <ion-label class="ion-text-wrap" color="primary">Address: </ion-label>
-                            <ion-input type="text" required={true} onBlur={e => userDetails.address = (e.target as HTMLInputElement).value}></ion-input>
+                            <ion-label class="ion-text-wrap" color="primary">Street: </ion-label>
+                            <ion-input type="text" required={true} onBlur={e => userDetails.street = (e.target as HTMLInputElement).value}></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label class="ion-text-wrap" color="primary">City: </ion-label>
+                            <ion-input type="text" required={true} onBlur={e => userDetails.city = (e.target as HTMLInputElement).value}></ion-input>
+                            <ion-label class="ion-text-wrap" color="primary">County: </ion-label>
+                            <ion-input type="text" required={true} onBlur={e => userDetails.county = (e.target as HTMLInputElement).value}></ion-input>
+                            <ion-label color="primary">State:</ion-label>
+                            <ion-select multiple={false} cancelText="Cancel" okText="Okay" onBlur={e => userDetails.state = ((e.target as HTMLInputElement).value)?.toString()}>
+                                {USStatesList.map(({ abbr }, i) => (
+                                    <ion-select-option key={i}>{abbr}</ion-select-option>
+                                ))};
+                            </ion-select>
+                            <ion-label class="ion-text-wrap" color="primary">Zip Code: </ion-label>
+                            <ion-input type="text" required={true} onBlur={e => userDetails.zipcode = (e.target as HTMLInputElement).value}></ion-input>
                         </ion-item>
                         <ion-item>
                             <ion-label class="ion-text-wrap" color="primary">Time Availability: </ion-label>
