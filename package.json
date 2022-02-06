@@ -18,12 +18,16 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-firebase-hooks": "^5.0.1",
-    "styled-components": "^5.3.3"
+    "react-geocode": "^0.2.3",
+    "react-google-places-autocomplete": "^3.3.2",
+    "styled-components": "^5.3.3",
+    "us-counties": "^1.2.1"
   },
   "devDependencies": {
     "@types/googlemaps": "^3.43.3",
     "@types/node": "17.0.13",
     "@types/react": "17.0.38",
+    "@types/react-geocode": "^0.2.0",
     "@types/styled-components": "^5.1.21",
     "eslint": "8.8.0",
     "eslint-config-next": "12.0.9",
