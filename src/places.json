@@ -1,0 +1,24 @@
+{
+    "Center": {
+        "name": "Capitol Park, CA",
+        "lat": 38.5765162,
+        "lng": -121.49322
+    },
+    "Places": [
+        {
+            "name": "Capitol Park, CA",
+            "lat": 38.5765162,
+            "lng": -121.49322
+        },
+        {
+            "name": "California State Railroad Museum",
+            "lat": 38.584957,
+            "lng": -121.50434
+        },
+        {
+            "name": "Crocker Art Museum",
+            "lat": 38.577126,
+            "lng": -121.50626
+        }
+    ]
+}
