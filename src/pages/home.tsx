@@ -11,7 +11,7 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
 } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import Link from 'next/link';
 import Router from 'next/router';
 import Geocode from 'react-geocode';
@@ -92,11 +92,24 @@ const UserHome = () => {
     setUserInfoUpdate(true);
   };
 
-  const handleLatLng = () => {
-    Geocode.fromAddress('Eiffel Tower').then(
+  const handleLatLng = async (address:string) => {
+    await Geocode.fromAddress(address).then(
       (response) => {
         const { lat, lng } = response.results[0].geometry.location;
-        console.log(lat, lng);
+        userDetails.lat = lat;
+        userDetails.lng = lng;
+        console.log(userDetails.lat);
+        console.log(userDetails.lng);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+    await Geocode.fromLatLng(userDetails.lat.toString(),userDetails.lng.toString()).then(
+      (response) => {
+        const county = response.results[0].address_components[3].long_name;
+        userDetails.county = county;
+        console.log(userDetails.county);
       },
       (error) => {
         console.error(error);
@@ -105,17 +118,16 @@ const UserHome = () => {
   };
 
   const handleSubmit = async () => {
-    userDetails.address = `${userDetails.street}, ${userDetails.city}, ${userDetails.state}, ${userDetails.zipcode}`;
+    userDetails.address = `${userDetails.street}, ${userDetails.city}, ${userDetails.state} ${userDetails.zipcode}`;
     console.log(userDetails.address);
-    handleLatLng();
-    /*
-        await setDoc(doc(db, collection, user!.uid), userDetails)
-            .then(() => {
-                Router.reload();
-            }).catch(error => {
-                alert(error);
-            });
-            */
+    handleLatLng(userDetails.address).then(async () => {
+      await setDoc(doc(db, collection, user!.uid), userDetails)
+        .then(() => {
+            Router.reload();
+        }).catch(error => {
+            alert(error);
+        });
+    })
   };
 
   const loadData = async (user: User) => {
@@ -280,18 +292,6 @@ const UserHome = () => {
                     required={true}
                     onBlur={(e) =>
                       (userDetails.city = (e.target as HTMLInputElement).value)
-                    }
-                  ></ion-input>
-                  <ion-label class="ion-text-wrap" color="primary">
-                    County:{' '}
-                  </ion-label>
-                  <ion-input
-                    type="text"
-                    required={true}
-                    onBlur={(e) =>
-                      (userDetails.county = (
-                        e.target as HTMLInputElement
-                      ).value)
                     }
                   ></ion-input>
                   <ion-label color="primary">State:</ion-label>
