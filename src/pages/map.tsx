@@ -1,9 +1,11 @@
+import Menu from '../components/navigation/menu';
 import Map from './map/map'
 
 const LoadMap = () => {
   return (
     <div>
-        <Map></Map>
+      <Menu></Menu>
+      <Map></Map>
     </div>
   )
 }
