@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-
+import { Avatar, Button, Text, useTheme } from '@geist-ui/react';
 import {
   getAuth,
   User,
@@ -14,45 +14,32 @@ import db from '../firebase.config';
 import RecycledTypesList from '../RecycledTypes';
 import USStatesList from '../USStates';
 import Menu from '../components/navigation/menu';
-import UserHeadingDetails from '../components/UserHeadingDetails';
 
 Geocode.setApiKey(process.env.NEXT_PUBLIC_GEOCODE_API_KEY!);
 
-let phone: string = "";
-let address: string = "";
-let timeAvailability: string = "";
-let website: URL = new URL("https://www.google.com/");
-let recycledType: string = "";
+let avatarSrc: string = "";
+var userDetails = {
+  phone: '',
+  street: '',
+  city: '',
+  county: '',
+  state: '',
+  zipcode: '',
+  lat: 0,
+  lng: 0,
+  address: '',
+  timeAvailability: '',
+  website: '',
+  recycledType: ''
+};
 
 const Settings = () => {
   const auth = getAuth();
   const collection = 'business';
-
+  const theme = useTheme();
   const [user, setUser] = useState<User | null>(null);
   const [userInfoUpdate, setUserInfoUpdate] = useState<boolean>(false);
-  const [showDetails, setShowDetails] = useState<boolean>(true);
-
-  const userDetails = {
-    phone: '',
-    street: '',
-    city: '',
-    county: '',
-    state: '',
-    zipcode: '',
-    lat: 0,
-    lng: 0,
-    address: '',
-    timeAvailability: '',
-    website: '',
-    recycledType: ''
-  };
-
-  const handleTriggerDetails = () => {
-    setShowDetails(false);
-    console.log(phone);
-    console.log(address);
-    console.log(timeAvailability);
-  };
+  const [showDetails, setShowDetails] = useState<boolean>(false);
 
   const handleTriggerUpdate = () => {
     setUserInfoUpdate(true);
@@ -101,24 +88,40 @@ const Settings = () => {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const data = docSnap.data();
-      phone = data.phone;
-      address = data.address;
-      timeAvailability = data.timeAvailability;
-      website = data.website;
-      recycledType = data.recycledType;
-      console.log(data);
-    } else {
+      userDetails.phone = data.phone;
+      userDetails.street = data.street;
+      userDetails.city = data.city;
+      userDetails.county = data.county;
+      userDetails.state = data.state;
+      userDetails.zipcode = data.zipcode;
+      userDetails.lat = data.lat;
+      userDetails.lng = data.lng;
+      userDetails.address = data.address;
+      userDetails.timeAvailability = data.timeAvailability;
+      userDetails.website = data.website;
+      userDetails.recycledType = data.recycledType;
+      console.log(userDetails);
+    }
+    else {
       console.log('No such document!');
     }
   };
 
   useEffect(() => {
+    setShowDetails(false);
     onAuthStateChanged(auth, (aUser) => {
       console.log(`Auth state changes: ${aUser}`);
       setUser(aUser);
       if (aUser) {
+        if (aUser.photoURL !== null) {
+          avatarSrc = aUser.photoURL;
+        }
+        else {
+          avatarSrc = "/assets/images/userLogo.jpg";
+        }
         loadData(aUser).then(() => {
-          console.log('Finished');
+          console.log(userDetails);
+          setShowDetails(true);
         });
       }
     });
@@ -129,62 +132,40 @@ const Settings = () => {
       <Menu></Menu>
       {user ? (
         <>
-          <UserHeadingDetails user={{ name: user?.displayName!, avatarSrc: user.photoURL, email: user?.email!, phone: phone, address: address, timeAvailability: timeAvailability, website: website, recycledType: recycledType }} />
-          <ion-item>
-            <ion-thumbnail slot="start">
-              {user.photoURL ? (
-                <img src={user.photoURL} alt="user"></img>
-              ) : (
-                <img
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAAAAACH5BAAAAAAALAAAAAABAAEAAAICTAEAOw=="
-                  alt="no image"
-                ></img>
-              )}
-            </ion-thumbnail>
-            <ion-label>
-              <h2>User: {user.displayName}</h2>
-              <p>UID: {user.uid}</p>
-              <p>Email: {user.email}</p>
-              {!showDetails && phone !== undefined && <p>Phone: {phone}</p>}
-              {!showDetails && address !== undefined && (
-                <p>Address: {address}</p>
-              )}
-              {!showDetails && timeAvailability !== undefined && (
-                <p>Time Availability: {timeAvailability}</p>
-              )}
-              {!showDetails && website !== undefined && (
-                <p>
-                  Website:{' '}
-                  <Link href={website!} passHref={true}>
-                    {website}
-                  </Link>
-                </p>
-              )}
-              {!showDetails && recycledType !== undefined && (
-                <p>Recycled Type(s): {recycledType}</p>
-              )}
-            </ion-label>
-            {showDetails && (
-              <ion-button
-                fill="outline"
-                slot="end"
-                onClick={handleTriggerDetails}
-              >
-                Details
-              </ion-button>
-            )}
-            {!showDetails && (
-              <ion-button
-                fill="outline"
-                slot="end"
-                onClick={handleTriggerUpdate}
-              >
-                Update
-              </ion-button>
-            )}
-          </ion-item>
+          <div className="heading__wrapper">
+            <div className="heading">
+              <Avatar alt="Your Avatar" className="heading__user-avatar" src={avatarSrc} />
+              <div className="heading__name">
+                <div className="heading__title">
+                  <Text h2 className="heading__user-name">
+                    {user.displayName}
+                  </Text>
+              
+                  {showDetails && <div className='heading__info'>
+                    <Text h5 className='heading__user-info'>
+                      Email: {user.email}<br></br>
+                      Phone: {userDetails.phone}<br></br>
+                      Address: {userDetails.address}<br></br>
+                      Time Availability: {userDetails.timeAvailability}<br></br>
+                      Website:{' '}
+                        <Link href={userDetails.website!} passHref={true}>
+                          {userDetails.website.toString()}
+                        </Link><br></br>
+                      Recycled Type: {userDetails.recycledType}<br></br>
+                    </Text>
+                  </div>}
+
+                  <div className="heading__actions">
+                    <Button type="secondary" auto onClick={handleTriggerUpdate}>
+                      Update Info
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           {userInfoUpdate && (
-            <ion-card>
+            <ion-card class='user-info-update'>
               <ion-card-header>
                 <ion-card-title>Update Your Account Information</ion-card-title>
               </ion-card-header>
@@ -206,6 +187,7 @@ const Settings = () => {
                   <ion-input
                     type="tel"
                     required={true}
+                    value={userDetails.phone}
                     onBlur={(e) =>
                       (userDetails.phone = (e.target as HTMLInputElement).value)
                     }
@@ -218,6 +200,7 @@ const Settings = () => {
                   <ion-input
                     type="text"
                     required={true}
+                    value={userDetails.street}
                     onBlur={(e) =>
                       (userDetails.street = (
                         e.target as HTMLInputElement
@@ -232,6 +215,7 @@ const Settings = () => {
                   <ion-input
                     type="text"
                     required={true}
+                    value={userDetails.city}
                     onBlur={(e) =>
                       (userDetails.city = (e.target as HTMLInputElement).value)
                     }
@@ -241,6 +225,7 @@ const Settings = () => {
                     multiple={false}
                     cancelText="Cancel"
                     okText="Okay"
+                    selectedText={userDetails.state}
                     onBlur={(e) =>
                       (userDetails.state = (
                         e.target as HTMLInputElement
@@ -258,6 +243,7 @@ const Settings = () => {
                   <ion-input
                     type="text"
                     required={true}
+                    value={userDetails.zipcode}
                     onBlur={(e) =>
                       (userDetails.zipcode = (
                         e.target as HTMLInputElement
@@ -272,6 +258,7 @@ const Settings = () => {
                   <ion-input
                     type="text"
                     required={true}
+                    value={userDetails.timeAvailability}
                     onBlur={(e) =>
                       (userDetails.timeAvailability = (
                         e.target as HTMLInputElement
@@ -286,6 +273,7 @@ const Settings = () => {
                   <ion-input
                     type="url"
                     required={true}
+                    value={userDetails.website}
                     onBlur={(e) =>
                       (userDetails.website = (
                         e.target as HTMLInputElement
@@ -303,7 +291,6 @@ const Settings = () => {
                       userDetails.recycledType = (
                         e.target as HTMLInputElement
                       ).value?.toString();
-                      console.log(recycledType);
                     }}
                   >
                     {RecycledTypesList.map(({ val }, i) => (
@@ -328,6 +315,68 @@ const Settings = () => {
           ></ion-progress-bar>
         </>
       )}
+      <style jsx>{`
+        .heading__wrapper {
+          border-bottom: 0px solid ${theme.palette.border};
+        }
+        .heading {
+          display: flex;
+          flex-direction: row;
+          width: ${theme.layout.pageWidthWithMargin};
+          max-width: 100%;
+          margin: 0 auto;
+          padding: calc(${theme.layout.gap} * 2) ${theme.layout.pageMargin} calc(${theme.layout.gap} * 4);
+          box-sizing: border-box;
+        }
+        .heading :global(.heading__user-avatar) {
+          height: 100px;
+          width: 100px;
+          margin-right: ${theme.layout.gap};
+        }
+        .heading__title {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          flex: 1;
+        }
+        .heading__name {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          flex: 1;
+        }
+        .heading__name :global(.heading__user-name) {
+          line-height: 1;
+        }
+        .heading__info {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          flex: 1;
+          margin-left: 20px;
+        }
+        .heading__info :global(.heading__user-info) {
+          line-height: 1;
+        }
+        .heading__actions {
+          margin-left: auto;
+        }
+        .heading__integration :global(.heading__integration-title) {
+          color: ${theme.palette.accents_5} !important;
+          font-size: 0.75rem;
+          font-weight: 500;
+          text-transform: uppercase;
+          margin: 0;
+        }
+        .heading__integration-inner {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+        }
+        .heading__integration-inner :global(svg) {
+          margin-right: ${theme.layout.gapQuarter};
+        }
+      `}</style>
     </>
   );
 };
