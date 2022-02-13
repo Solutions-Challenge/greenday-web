@@ -1,9 +1,17 @@
-/* eslint-disable import/no-extraneous-dependencies */
+const webpack = require('webpack');
+const {parsed: myEnv} = require('dotenv').config({
+  path:'./.env'
+});
+
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
 module.exports = withBundleAnalyzer({
+  webpack(config) {
+    config.plugins.push(new webpack.EnvironmentPlugin(myEnv));
+    return config;
+  },
   poweredByHeader: false,
   trailingSlash: true,
   basePath: '',
