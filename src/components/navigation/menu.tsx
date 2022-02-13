@@ -16,7 +16,7 @@ const Menu: React.FC = () => {
   const theme = useTheme();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
-  const [user, setUser] = useState<User | null>(null);
+  const [, setUser] = useState<User | null>(null);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [themeType, setThemeType] = useState('light')
   

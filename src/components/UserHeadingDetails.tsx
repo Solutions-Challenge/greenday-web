@@ -19,7 +19,7 @@ export type HeadingProps = Props;
 
 const HeadingDetails: React.FC<HeadingProps> = ({ user }) => {
   const theme = useTheme();
-  const [userInfoUpdate, setUserInfoUpdate] = useState<boolean>(false);
+  const [, setUserInfoUpdate] = useState<boolean>(false);
 
   if (user.avatarSrc === null) {
     user.avatarSrc = "/assets/images/userLogo.jpg";

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Text, Card, useTheme, Image } from '@geist-ui/react';
+import { Text, Card, useTheme, Image } from '@geist-ui/react';
 
 interface Props {
   pictureURL: string;
