@@ -57,7 +57,7 @@ const Menu = () => {
                 </Link>
               ))}
               <a
-                href="#"
+                href="/home"
                 className={`font-medium text-primary hover:text-secondary`}
               >
                 ACT TODAY

@@ -27,7 +27,7 @@ const Heading: React.FC<HeadingProps> = ({ user }) => {
 
               <div className="heading__actions">
                 <NextLink href="/map" passHref>
-                  <Button type="secondary" auto>
+                  <Button type="success" auto>
                     Search Recycling
                   </Button>
                 </NextLink>
@@ -68,6 +68,7 @@ const Heading: React.FC<HeadingProps> = ({ user }) => {
         }
         .heading__name :global(.heading__user-name) {
           line-height: 1;
+          color: #20894d;
         }
         .heading__name :global(.heading__user-role) {
           background: ${theme.palette.accents_1};
