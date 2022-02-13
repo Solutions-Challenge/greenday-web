@@ -78,14 +78,14 @@ const Menu: React.FC = () => {
             {theme.type === 'dark' ? <Icons.Sun size={16} /> : <Icons.Moon size={16} />}
           </Button>
           <Button
-            className="login-button"
+            id="login-button"
             auto
             type="abort"
             disabled={loggedIn}
             onClick={handleSignInRequest}
           >LOG IN</Button>
           <Button
-            className="logout-button"
+            id="logout-button"
             auto
             type="abort"
             disabled={!loggedIn}
@@ -112,6 +112,7 @@ const Menu: React.FC = () => {
           font-weight: 500;
           margin: 0;
           letter-spacing: 0;
+          color: #00ad43;
         }
         .theme-nav > div {
           display: flex;
