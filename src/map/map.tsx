@@ -1,5 +1,4 @@
-import React from "react";
-
+import React, { useEffect } from "react";
 import { map } from "./initMap";
 import StyledMap from "./map.css";
 
@@ -9,41 +8,34 @@ type MarkerInfo = {
   lng: number;
 }
 
-function attachSecretMessage(marker: google.maps.Marker, secretMessage: string) {
-  const infowindow = new google.maps.InfoWindow({
-    content: secretMessage,
-  });
+const Map = () => {
+  var json = require("../places.json");
 
-  marker.addListener("click", (event) => {
-    infowindow.open(marker.get("map"), marker);
-    map.setZoom(10);
-    map.setCenter(event.latLng);
-  });
-}
-
-class Map extends React.Component {
-  json = require("../places.json");
-
-  state = {
-    defaultCenter: this.json.Center,
-    markers: this.json.Places
-  };
-
-  componentDidMount() {
-    console.log('window.innerHeight', window.innerHeight);
-    this.handleAttachGoogleMap();
+  var state = {
+    defaultCenter: json.Center,
+    markers: json.Places
   }
 
-  handleAttachGoogleMap = () => {
-    console.log(map);
-
+  function handleAttachGoogleMap() {
     setTimeout(() => {
-      this.handleDrawMarkers();
+      handleDrawMarkers();
     }, 2000);
   };
 
-  handleDrawMarkers = () => {
-    const { markers } = this.state;
+  function attachSecretMessage(marker: google.maps.Marker, secretMessage: string) {
+    const infowindow = new google.maps.InfoWindow({
+      content: secretMessage,
+    });
+
+    marker.addListener("click", (event) => {
+      infowindow.open(marker.get("map"), marker);
+      map.setZoom(10);
+      map.setCenter(event.latLng);
+    });
+  }
+
+  function handleDrawMarkers() {
+    const { markers } = state;
     const bounds = new google.maps.LatLngBounds();
 
     markers.forEach((markerInfo:MarkerInfo) => {
@@ -59,13 +51,15 @@ class Map extends React.Component {
     map.panToBounds(bounds);
   };
 
-  render() {
-    return (
-      <StyledMap>
-        <div id="google-map" />
-      </StyledMap>
-    );
-  }
+  useEffect(() => {
+    handleAttachGoogleMap();
+  });
+
+  return (
+    <StyledMap>
+      <div id="google-map" />
+    </StyledMap>
+  );
 }
 
 export default Map;
