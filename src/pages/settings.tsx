@@ -156,7 +156,7 @@ const Settings = () => {
                   </div>}
 
                   <div className="heading__actions">
-                    <Button type="secondary" auto onClick={handleTriggerUpdate}>
+                    <Button type="success" auto onClick={handleTriggerUpdate}>
                       Update Info
                     </Button>
                   </div>
@@ -347,6 +347,7 @@ const Settings = () => {
         }
         .heading__name :global(.heading__user-name) {
           line-height: 1;
+          color: #20894d;
         }
         .heading__info {
           display: flex;
@@ -354,6 +355,7 @@ const Settings = () => {
           justify-content: center;
           flex: 1;
           margin-left: 20px;
+          color: #2c9678;
         }
         .heading__info :global(.heading__user-info) {
           line-height: 1;
