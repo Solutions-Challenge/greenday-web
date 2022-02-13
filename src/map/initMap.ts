@@ -4,12 +4,11 @@ let map: google.maps.Map;
 const json = require('../places.json');
 
 const loader = new Loader({
-  apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY!,
+  apiKey: process.env.GOOGLE_API_KEY!,
   version: 'weekly',
 });
 
-loader
-  .load()
+loader.load()
   .then(() => {
     const styledMapType = new google.maps.StyledMapType(
       [
