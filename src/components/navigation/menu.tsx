@@ -53,7 +53,7 @@ const Menu: React.FC = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (aUser) => {
       setUser(aUser);
-      if (aUser) {
+      if (user) {
         setLoggedIn(true);
       }
       else {
