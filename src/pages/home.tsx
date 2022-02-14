@@ -24,22 +24,35 @@ const Home = () => {
   return (
     <>
     <Menu></Menu>
-    {(user?.displayName !== undefined) && <UserHeading user={{ name: user?.displayName!, avatarSrc: user.photoURL }} />}
-    <div className="page__wrapper">
-      <div className="page__content">
-        <Grid.Container gap={2} marginTop={1} justify="flex-start">
-          {PictureList.map(({ pictureURL, pictureName }, i) => (
-            <Grid key={i} xs={24} sm={12} md={8}>
-            <PictureCard
-              pictureURL={pictureURL}
-              pictureName={pictureName}
-            />
-          </Grid>
-          ))}
-          
-        </Grid.Container>
-      </div>
-    </div>
+    {user ? (
+      <>
+        {(user?.displayName !== undefined) && <UserHeading user={{ name: user?.displayName!, avatarSrc: user.photoURL }} />}
+        <div className="page__wrapper">
+          <div className="page__content">
+            <Grid.Container gap={2} marginTop={1} justify="flex-start">
+              {PictureList.map(({ pictureURL, pictureName }, i) => (
+                <Grid key={i} xs={24} sm={12} md={8}>
+                <PictureCard
+                  pictureURL={pictureURL}
+                  pictureName={pictureName}
+                />
+              </Grid>
+              ))}    
+            </Grid.Container>
+          </div>
+        </div>
+      </>) : (
+      <>
+        <ion-progress-bar type="indeterminate"></ion-progress-bar>
+        <ion-chip color="secondary">
+          <ion-label color="dark">Please Sign In</ion-label>
+        </ion-chip>
+        <ion-progress-bar
+          type="indeterminate"
+          reversed={true}
+        ></ion-progress-bar>
+      </>
+    )}
     <style jsx>{`
       .page__wrapper {
         background-color: ${theme.palette.accents_1};
