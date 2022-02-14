@@ -8,6 +8,7 @@ module.exports = {
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
+  
   env: {
     GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
     GEOCODE_API_KEY: process.env.GEOCODE_API_KEY,
