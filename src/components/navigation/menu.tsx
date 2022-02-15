@@ -16,7 +16,7 @@ const Menu: React.FC = () => {
   const theme = useTheme();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
-  const [user, setUser] = useState<User | null>(null);
+  const [, setUser] = useState<User | null>(null);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [themeType, setThemeType] = useState('light')
   
@@ -31,6 +31,7 @@ const Menu: React.FC = () => {
             GoogleAuthProvider.credentialFromResult(result);
           if (credential) {
             setUser(result.user);
+            setLoggedIn(true);
           }
         })
         .catch((error) => {
@@ -44,6 +45,7 @@ const Menu: React.FC = () => {
       signOut(auth)
         .then(() => {
           setUser(null);
+          setLoggedIn(false);
         })
         .catch((error) => {
           alert(error);
@@ -53,13 +55,14 @@ const Menu: React.FC = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (aUser) => {
       setUser(aUser);
-      if (user) {
+      if (aUser) {
         setLoggedIn(true);
       }
       else {
         setLoggedIn(false);
       }
     });
+    console.log(loggedIn);
   }, [auth]);
 
   return (
