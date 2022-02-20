@@ -12,10 +12,9 @@ import Geocode from 'react-geocode';
 
 import db from '../firebase.config';
 import RecycledTypesList from '../RecycledTypes';
-import USStatesList from '../USStates';
 import Menu from '../components/navigation/menu';
 
-Geocode.setApiKey(process.env.NEXT_PUBLIC_GEOCODE_API_KEY!);
+Geocode.setApiKey(process.env.GEOCODE_API_KEY!);
 
 let avatarSrc: string = "";
 var userDetails = {
@@ -192,81 +191,6 @@ const Settings = () => {
                       (userDetails.phone = (e.target as HTMLInputElement).value)
                     }
                   ></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-label class="ion-text-wrap" color="primary">
-                    Street:{' '}
-                  </ion-label>
-                  <ion-input
-                    type="text"
-                    required={true}
-                    value={userDetails.street}
-                    onBlur={(e) =>
-                      (userDetails.street = (
-                        e.target as HTMLInputElement
-                      ).value)
-                    }
-                  ></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-label class="ion-text-wrap" color="primary">
-                    City:{' '}
-                  </ion-label>
-                  <ion-input
-                    type="text"
-                    required={true}
-                    value={userDetails.city}
-                    onBlur={(e) =>
-                      (userDetails.city = (e.target as HTMLInputElement).value)
-                    }
-                  ></ion-input>
-                  <ion-label color="primary">State:</ion-label>
-                  <ion-select
-                    multiple={false}
-                    cancelText="Cancel"
-                    okText="Okay"
-                    selectedText={userDetails.state}
-                    onBlur={(e) =>
-                      (userDetails.state = (
-                        e.target as HTMLInputElement
-                      ).value?.toString())
-                    }
-                  >
-                    {USStatesList.map(({ abbr }, i) => (
-                      <ion-select-option key={i}>{abbr}</ion-select-option>
-                    ))}
-                    ;
-                  </ion-select>
-                  <ion-label class="ion-text-wrap" color="primary">
-                    Zip Code:{' '}
-                  </ion-label>
-                  <ion-input
-                    type="text"
-                    required={true}
-                    value={userDetails.zipcode}
-                    onBlur={(e) =>
-                      (userDetails.zipcode = (
-                        e.target as HTMLInputElement
-                      ).value)
-                    }
-                  ></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-label class="ion-text-wrap" color="primary">
-                    Time Availability:{' '}
-                  </ion-label>
-                  <ion-input
-                    type="text"
-                    required={true}
-                    value={userDetails.timeAvailability}
-                    onBlur={(e) =>
-                      (userDetails.timeAvailability = (
-                        e.target as HTMLInputElement
-                      ).value)
-                    }
-                  ></ion-input>
-                </ion-item>
-                <ion-item>
                   <ion-label class="ion-text-wrap" color="primary">
                     Website:{' '}
                   </ion-label>
@@ -282,6 +206,71 @@ const Settings = () => {
                   ></ion-input>
                 </ion-item>
                 <ion-item>
+                  <ion-label class="ion-text-wrap" color="primary">
+                    Street:{' '}
+                  </ion-label>
+                  <ion-input
+                    type="text"
+                    required={true}
+                    value={userDetails.street}
+                    onBlur={(e) =>
+                      (userDetails.street = (
+                        e.target as HTMLInputElement
+                      ).value)
+                    }
+                  ></ion-input>
+                  <ion-label class="ion-text-wrap" color="primary">
+                    City:{' '}
+                  </ion-label>
+                  <ion-input
+                    type="text"
+                    required={true}
+                    value={userDetails.city}
+                    onBlur={(e) =>
+                      (userDetails.city = (e.target as HTMLInputElement).value)
+                    }
+                  ></ion-input>
+                  <ion-label class="ion-text-wrap" color="primary">
+                    State/Province:{' '}
+                  </ion-label>
+                  <ion-input
+                    type="text"
+                    required={true}
+                    value={userDetails.state}
+                    onBlur={(e) =>
+                      (userDetails.state = (e.target as HTMLInputElement).value)
+                    }
+                  ></ion-input>
+                  <ion-label class="ion-text-wrap" color="primary">
+                    Zip Code:{' '}
+                  </ion-label>
+                  <ion-input
+                    type="text"
+                    required={true}
+                    value={userDetails.zipcode}
+                    onBlur={(e) =>
+                      (userDetails.zipcode = (
+                        e.target as HTMLInputElement
+                      ).value)
+                    }
+                  ></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label class="ion-text-wrap" color="primary" placeholder='e.g. MTWRF 9am - 5pm'>
+                    Time Availability:{' '}
+                  </ion-label>
+                  <ion-input
+                    type="text"
+                    required={true}
+                    value={userDetails.timeAvailability}
+                    onBlur={(e) =>
+                      (userDetails.timeAvailability = (
+                        e.target as HTMLInputElement
+                      ).value)
+                    }
+                  ></ion-input>
+                </ion-item>
+                <ion-item>
                   <ion-label color="primary">Recycled Type(s)</ion-label>
                   <ion-select
                     multiple={true}
@@ -291,12 +280,10 @@ const Settings = () => {
                       userDetails.recycledType = (
                         e.target as HTMLInputElement
                       ).value?.toString();
-                    }}
-                  >
+                    }}>
                     {RecycledTypesList.map(({ val }, i) => (
                       <ion-select-option key={i}>{val}</ion-select-option>
-                    ))}
-                    ;
+                    ))};
                   </ion-select>
                 </ion-item>
               </ion-card-content>
