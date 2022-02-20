@@ -11,6 +11,7 @@ import {
   onAuthStateChanged,
   GoogleAuthProvider,
 } from 'firebase/auth';
+import router from 'next/router';
 
 const Menu: React.FC = () => {
   const theme = useTheme();
@@ -70,7 +71,7 @@ const Menu: React.FC = () => {
     <GeistProvider themeType={themeType}>
       <CssBaseline />
       <nav className="theme-nav">
-        <h1 className="theme-title">Green Day - RecycleMe USA</h1>
+        <h1 className="theme-title" onClick={() => router.push("/")}>Green Day - RecycleMe Global</h1>
         <div>
           <Button
             className="theme-button"
