@@ -10,9 +10,7 @@ export type HeadingProps = Props;
 
 const Heading: React.FC<HeadingProps> = ({ user }) => {
   const theme = useTheme();
-  if (user.avatarSrc === null) {
-    user.avatarSrc = "/assets/images/userLogo.jpg";
-  }
+  user.avatarSrc = (user.avatarSrc === null)? "/assets/images/userLogo.jpg" : user.avatarSrc;
 
   return (
     <>
@@ -28,7 +26,13 @@ const Heading: React.FC<HeadingProps> = ({ user }) => {
               <div className="heading__actions">
                 <NextLink href="/map" passHref>
                   <Button type="success" auto>
-                    Search Recycling
+                    Search Map
+                  </Button>
+                </NextLink>
+                <h5></h5>
+                <NextLink href="/settings" passHref>
+                  <Button type="success" auto>
+                    Add Your Business
                   </Button>
                 </NextLink>
               </div>
