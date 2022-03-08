@@ -120,45 +120,12 @@ export const queryBusinessIDs = async (lat: number, lng: number) => {
   return data.json();
 };
 
-export const queryTrashCanLocations = async (lat: number, lng: number) => {
+export const getBusinessImages = async (uid: any) => {
   let details = {
-    latitude: lat,
-    longitude: lng,
+    uid: uid
   } as any;
 
-  const data = await fetch(`${ifDev ? develop : prod}/database/queryTrashcanLocation`, {
-    method: "POST",
-    body: formBody(details),
-    headers: {
-      "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
-    },
-  });
-
-  return data.json();
-};
-
-export const getTrashCanImage = async (id: any) => {
-  let details = {
-    image_ids: id,
-  } as any;
-
-  const data = await fetch(`${ifDev ? develop : prod}/database/getTrashcanImage`, {
-    method: "POST",
-    body: formBody(details),
-    headers: {
-      "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
-    },
-  });
-
-  return data.json();
-};
-
-export const getTrashCanData = async (id: any) => {
-  let details = {
-    image_ids: id,
-  } as any;
-
-  const data = await fetch(`${ifDev ? develop : prod}/database/getTrashcan`, {
+  const data = await fetch(`${ifDev ? develop : prod}/database/getBusinessImages`, {
     method: "POST",
     body: formBody(details),
     headers: {
@@ -178,22 +145,70 @@ function getBase64(file:File) {
   });
 }
 
-export const addImg = async (data: any, result: any) => {
+export const addBusinessImage = async (imageID: any, file: File) => {
   const id_token = await currentUser().getIdToken();
   let details = {
     id_token: id_token,
-    data: JSON.stringify({
-      key: id_token,
-      multi: data,
-    }),
-    image_base64: await getBase64(result),
+    image_id: imageID,
+    image_base64: await getBase64(file),
   } as any;
 
-  await fetch(`${ifDev ? develop : prod}/database/addImg`, {
+  const response = await fetch(`${ifDev ? develop : prod}/database/addBusinessImage`, {
     method: "POST",
     body: formBody(details),
     headers: {
       "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
     },
   });
+
+  return response.json();
+}
+
+export const queryTrashCanLocations = async (lat: number, lng: number) => {
+  let details = {
+    latitude: lat,
+    longitude: lng,
+  } as any;
+
+  const data = await fetch(`${ifDev ? develop : prod}/database/queryTrashcanLocation`, {
+    method: "POST",
+    body: formBody(details),
+    headers: {
+      "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
+    },
+  });
+
+  return data.json();
+};
+
+export const getTrashCanImage = async (ids: any[]) => {
+  let details = {
+    image_ids: ids,
+  } as any;
+
+  const data = await fetch(`${ifDev ? develop : prod}/database/getTrashcanImage`, {
+    method: "POST",
+    body: formBody(details),
+    headers: {
+      "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
+    },
+  });
+
+  return data.json();
+};
+
+export const getTrashCanData = async (ids: any[]) => {
+  let details = {
+    image_ids: ids,
+  } as any;
+
+  const data = await fetch(`${ifDev ? develop : prod}/database/getTrashcan`, {
+    method: "POST",
+    body: formBody(details),
+    headers: {
+      "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
+    },
+  });
+
+  return data.json();
 };
