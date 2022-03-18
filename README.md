@@ -1,6 +1,6 @@
 # Green Day - Web App
 ## Checking Out Our Deployment
-Here: https://green-day-web.vercel.app/
+Here: https://green-day-web.vercel.app/ (best in Chrome and Microsoft Edge)
 1. You are more than welcome to read our Landing Page for a brief introduction of our project!
 2. Click "Get Started" to come to the Home page
 3. Go to the Map to enter your location and search for trash cans or recycling businesses near you (you **DO NOT** have to log in to use the Map)
