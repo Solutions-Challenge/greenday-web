@@ -15,3 +15,5 @@ Here: https://green-day-web.vercel.app/
 3. Fill in all API keys in .env.local
 4. ```npm run dev``` or ```yarn dev```
 5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
+## Reaching Us Out
+Contact us at nextchart.beachrock@gmail.com for anything!
