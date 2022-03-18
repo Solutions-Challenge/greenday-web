@@ -12,7 +12,7 @@ Here: https://green-day-web.vercel.app/ (best in Chrome and Microsoft Edge)
 ## Checking Out Our Codes
 1. Download the zip of this repository
 2. ```npm install``` or ```yarn install```
-3. Fill in all API keys in .env.local
+3. Fill in all API keys in .env.local (currently this repository is private, so we kept the keys inside it to ease your testing)
 4. ```npm run dev``` or ```yarn dev```
 5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
 ## Reaching Us Out
