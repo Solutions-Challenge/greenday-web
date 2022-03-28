@@ -8,7 +8,7 @@
         <img src="./assets/images/README/app-store.png" alt="drawing" width="150"/>
     </a>
     <a href="https://green-day-web.vercel.app/">
-        <img src="./assets/images/README/logo.png" alt="drawing" width="150"/>
+        <img src="./assets/images/README/Logo.png" alt="drawing" width="150"/>
     </a>
 </div>
 
